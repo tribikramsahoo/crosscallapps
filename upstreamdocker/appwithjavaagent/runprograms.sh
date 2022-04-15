@@ -1,0 +1,1 @@
+java -jar /opt/demo/upstream-0.0.1-SNAPSHOT.jar

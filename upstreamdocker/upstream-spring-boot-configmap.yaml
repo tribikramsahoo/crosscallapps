@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: upstream-spring-boot-configmap
+data:
+  downstream-springboot_host_port: downstream-springboot-service

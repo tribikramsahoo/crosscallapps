@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upstream-springboot
+  labels:
+    app: upstream-springboot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: upstream-springboot
+  template:
+    metadata:
+      labels:
+        app: upstream-springboot
+    spec:
+      containers:
+      - name: upstream-springboot
+        image: tribikramsahoo/upstreamspringboot
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DOWNSTREAM_HTTP_URL
+          valueFrom: 
+            configMapKeyRef:
+              name: upstream-spring-boot-configmap
+              key: downstream-springboot_host_port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: upstream-springboot-service
+spec:
+  selector:
+    app: upstream-springboot
+  type: NodePort  
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
